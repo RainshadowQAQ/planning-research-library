@@ -1,0 +1,45 @@
+[
+  {
+    "file": "perm-search.json",
+    "url": "https://www.ozp.tpb.gov.hk/api/Perm",
+    "method": "POST",
+    "parameters": {
+      "caseNo": "A/K1/265"
+    },
+    "retrieved_at": "2026-09-05T14:23:27.353911+00:00",
+    "status": 200,
+    "bytes": 1944,
+    "sha256": "e4b2bfef81ee7478b83cb3cea0b3c0e1731a152b34d3454c78a70f32669b6156"
+  },
+  {
+    "file": "perm-detail.json",
+    "url": "https://www.ozp.tpb.gov.hk/api/Perm/Detail/",
+    "method": "POST",
+    "parameters": {
+      "caseNo": "A/K1/265",
+      "appType": "permission"
+    },
+    "retrieved_at": "2026-09-05T14:23:27.355243+00:00",
+    "status": 200,
+    "bytes": 8096,
+    "sha256": "fda49821e89d400fbdf5fd071609c6775258068029db46d2f1b37e6a54cb8a39"
+  },
+  {
+    "file": "minutes-705-en.pdf",
+    "url": "https://www.tpb.gov.hk/en/meetings/MPC/Minutes/m705mpc_e.pdf",
+    "retrieved_at": "2026-09-05T14:25:11.631878+00:00",
+    "status": 200,
+    "bytes": 316801,
+    "pdf_signature": true,
+    "sha256": "564a23018b15dd0377c157c22e4ec2c0b00d2e23016eb7a90421d91db96f9c6d"
+  },
+  {
+    "file": "main-paper.pdf",
+    "url": "https://www.tpb.gov.hk/uploads/page/meetings/MPC/A_K1_265_A/A_K1_265_A_MainPaper.pdf",
+    "status": 200,
+    "bytes": 314340,
+    "sha256": "fc8404c047048a5273d5d656678ce3d0034fff7631a8f80cbcbc55c18fd7eb33",
+    "pdf_signature": true,
+    "retrieved_at": "2026-09-05T14:26:15.182648+00:00"
+  }
+]

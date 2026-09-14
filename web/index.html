@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>規劃資料室</title>
+    <link rel="icon" href="/icon.svg" />
+    <link rel="stylesheet" href="/vendor/pdfjs/web/pdf_viewer.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header id="library-header">
+      <strong>規劃資料室</strong><span id="environment" hidden>測試資料庫</span>
+      <div class="header-actions">
+        <button id="new-project">＋ 新建資料夾</button>
+      </div>
+    </header>
+    <div id="shell" class="shell">
+      <aside id="sidebar">
+        <div class="section-label">資料夾</div>
+        <nav id="folders" aria-label="申請資料夾"></nav>
+        <div id="categories"></div>
+        <a
+          class="font-credit"
+          href="/fonts/README.md"
+          target="_blank"
+          rel="noopener"
+          >MiSans Fonts</a
+        >
+      </aside>
+      <div
+        id="split-left"
+        class="splitter"
+        role="separator"
+        tabindex="0"
+        aria-label="調整資料夾欄寬"
+        aria-orientation="vertical"
+      ></div>
+      <main id="main">
+        <section id="empty" hidden>
+          <h1>規劃資料室</h1>
+          <p>新建資料夾，輸入完整申請編號。</p>
+        </section>
+        <section id="workspace" hidden>
+          <div class="project-heading">
+            <h1 id="case-title"></h1>
+            <button id="update">更新資料</button>
+          </div>
+          <p id="address"></p>
+          <div class="scope-bar">
+            <select id="scope" aria-label="資料範圍">
+              <option value="all">全部已存文件</option>
+              <option value="date">截至日期…</option></select
+            ><input
+              type="date"
+              id="date-filter"
+              aria-label="篩選截止日期"
+              hidden
+            /><span id="file-count"></span>
+          </div>
+          <div id="status" aria-live="polite"></div>
+          <div id="candidates"></div>
+          <div class="list-tools">
+            <input
+              id="search"
+              type="search"
+              placeholder="搜尋文件"
+              aria-label="搜尋文件"
+            /><button id="export">下載資料包</button>
+          </div>
+          <div class="tabs">
+            <button id="files-tab" class="selected">文件</button
+            ><button id="application-tab">申請與決定</button>
+          </div>
+          <div id="documents"></div>
+          <div id="application" hidden></div>
+        </section>
+      </main>
+      <div
+        id="split-right"
+        class="splitter"
+        role="separator"
+        tabindex="0"
+        aria-label="調整文件欄寬"
+        aria-orientation="vertical"
+      ></div>
+      <section id="reader-pane" aria-label="文件閱讀">
+        <div id="reader-titlebar">
+          <button id="back" hidden>‹ 資料庫</button
+          ><strong id="reader-case"></strong
+          ><select id="file-switch" aria-label="切換文件"></select
+          ><button id="focus" title="展開閱讀">展開閱讀</button
+          ><button id="details-toggle">來源詳情</button>
+        </div>
+        <div id="reader-tools">
+          <input
+            type="number"
+            id="page"
+            min="1"
+            value="1"
+            aria-label="頁碼"
+          /><span id="pages">/ —</span
+          ><button id="zoom-out" aria-label="縮小">−</button
+          ><select id="zoom" aria-label="縮放">
+            <option value="page-width">適合寬度</option>
+            <option value="0.75">75%</option>
+            <option value="1">100%</option>
+            <option value="1.25">125%</option>
+            <option value="1.5">150%</option>
+            <option value="2">200%</option></select
+          ><button id="zoom-in" aria-label="放大">＋</button
+          ><a id="original" target="_blank" rel="noopener">開啟原件 ↗</a>
+        </div>
+        <div id="reader-stage">
+          <div id="reader-container"><div class="pdfViewer"></div></div>
+          <div id="reader-message">選取文件</div>
+        </div>
+        <div id="details" hidden></div>
+      </section>
+    </div>
+    <dialog id="new-dialog">
+      <form id="new-form">
+        <h2>新建資料夾</h2>
+        <label
+          >申請編號<input
+            id="case-input"
+            required
+            maxlength="64"
+            placeholder="例如 A/K1/265" /></label
+        ><label
+          >研究問題<textarea
+            id="question-input"
+            maxlength="2000"
+            rows="2"
+          ></textarea></label
+        ><label
+          >檢索截止日期<input id="cutoff-input" type="date" required
+        /></label>
+        <p id="form-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" id="cancel-new">取消</button
+          ><button id="submit-new" class="primary">建立</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="update-dialog">
+      <form id="update-form">
+        <h2>更新資料</h2>
+        <label
+          >研究問題<textarea
+            id="update-question"
+            rows="2"
+            maxlength="2000"
+          ></textarea></label
+        ><label
+          >檢索截止日期<input id="update-cutoff" type="date" required
+        /></label>
+        <p id="update-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" id="cancel-update">取消</button
+          ><button class="primary">開始搜集</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="export-dialog">
+      <h2>下載資料包</h2>
+      <p id="export-summary"></p>
+      <div id="export-issues"></div>
+      <p id="export-error" role="alert"></p>
+      <div class="actions">
+        <button id="cancel-export">取消</button
+        ><button id="download" class="primary">下載 ZIP</button>
+      </div>
+    </dialog>
+    <div id="toast" role="status" hidden></div>
+  </body>
+</html>

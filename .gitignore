@@ -1,0 +1,16 @@
+.worktrees/
+.superpowers/
+.venv/
+__pycache__/
+.pytest_cache/
+.data/
+.data-library/
+.data-test/
+.data-test-*/
+backups/
+node_modules/
+web/vendor/
+output/
+tmp/
+.playwright-cli/
+.DS_Store

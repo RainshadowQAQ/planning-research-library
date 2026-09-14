@@ -1,0 +1,1 @@
+{"name":"planning-research-library","private":true,"type":"module","scripts":{"vendor":"node scripts/vendor-pdf.mjs"},"dependencies":{"pdfjs-dist":"6.3.289"}}
