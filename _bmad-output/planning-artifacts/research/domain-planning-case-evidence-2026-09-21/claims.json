@@ -1,0 +1,12 @@
+[
+  {"claim":"Y/NE-KTS/17 PR denominator","class":"regulatory","pub_date":"2023-10-27"},
+  {"claim":"A/YL-KTN/1131 floor-area correction","class":"regulatory","pub_date":"2025-08-01"},
+  {"claim":"A/YL-KTN/535 approval and revocation history","class":"regulatory","pub_date":"2019-07-05"},
+  {"claim":"A/NE-TKL/785 boundary and zoning qualifications","class":"regulatory","pub_date":"2025-01-10"},
+  {"claim":"Y/NE-LYT/9 partial agreement","class":"regulatory","pub_date":"2009-08-07"},
+  {"claim":"Student hostel EOI parameters","class":"regulatory","pub_date":"2026-01-20"},
+  {"claim":"S/KC/32 Chung Shan Terrace area controls","class":"regulatory","pub_date":"2023-10-13"},
+  {"claim":"BRAVO acquisition channel","class":"gatekeeper-policy","pub_date":"2026-09-21"},
+  {"claim":"IRIS acquisition channel","class":"gatekeeper-policy","pub_date":"2026-09-21"},
+  {"claim":"LandsD waiver route","class":"regulatory","pub_date":"2026-09-21"}
+]
