@@ -1,0 +1,16 @@
+- id: "1"
+  title: 在现有阅读器查看 A/K1/265 场地资料并跳回原文
+  description: >-
+    基于 SPEC.md 的 CAP-1、CAP-2、CAP-8 与 case-ak1-265.md，在现有阅读器展示冻结样板中的场地字段、来源主张、时间、资料性质、覆核状态和明确缺口。
+    点击来源跳到正确文件版本、页及原文区域；定位不足时显示原因，不绘制误导高亮，验收参照 acceptance.md。
+  spec_checkpoint: true
+  done_checkpoint: true
+  invoke_dev_with: ""
+- id: "2"
+  title: 覆核场地字段和原文定位并持久保存
+  description: >-
+    基于 SPEC.md 的 CAP-3、CAP-7 与 interaction.md，为场地字段和原文定位提供确认、修改、移除及恢复，并记录前后值、来源关联、操作者和时间。
+    重启后保持覆核结果，重分析不得覆盖人工修改或复活已移除项；保存失败可重试，验收参照 acceptance.md。
+  spec_checkpoint: true
+  done_checkpoint: true
+  invoke_dev_with: ""
