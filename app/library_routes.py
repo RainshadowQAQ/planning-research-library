@@ -120,3 +120,4 @@ def attach_library_routes(app,lib,schedule,ProjectInput,public):
     @router.get('/api/environment')
     def environment():return {'test':app.state.test_mode}
     app.include_router(router)
+    return view

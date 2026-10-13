@@ -20,6 +20,7 @@ from app.store import Store
 from app.research import ResearchService
 from app.library import Library
 from app.library_routes import attach_library_routes
+from app.site_fact_routes import attach_site_fact_routes
 
 BASE=Path(__file__).resolve().parent.parent
 
@@ -168,7 +169,8 @@ def create_app(root=None):
         except Exception:
             path.unlink(missing_ok=True);raise HTTPException(409,'有本地文件缺失，請重新搜集')
         return FileResponse(path,media_type='application/zip',filename=safe+'.zip',background=BackgroundTask(path.unlink,missing_ok=True))
-    attach_library_routes(app,lib,schedule,ProjectInput,public)
+    view=attach_library_routes(app,lib,schedule,ProjectInput,public)
+    attach_site_fact_routes(app,lib,view)
     app.mount('/',StaticFiles(directory=BASE/'web',html=True),name='web')
     return app
 
