@@ -170,7 +170,7 @@
     },
     {
       "id": "gfa-nondomestic", "question": "scale", "label": "非住用 GFA",
-      "value": "約 7,638（住用欄為空）", "unit": "m²",
+      "value": "約 7,638 m²（住用欄為空）", "unit": "m²",
       "time": "2022-08-26 後修訂申請參數", "nature": "application_proposal", "scope": "申請範圍；Gist 原文稱 GFA，主文件稱 Floor Area，術語不同；非已核實的批准建築圖則 GFA",
       "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "approximate",
       "review_status": "pending", "issue_ids": ["gist-parameter-definitions", "bo-records"],
@@ -223,7 +223,7 @@
     },
     {
       "id": "loading-facilities", "question": "scale", "label": "用途容量／配套",
-      "value": "既有上落客貨設施共 3：的士 1、公共貨車 2；單位數欄為空（設施數量，不是建築容量或新增設施）", "unit": "處",
+      "value": "既有上落客貨設施共 3：的士 1、公共貨車 2；單位數欄為空（設施數量，不是建築容量或新增設施）", "unit": null,
       "time": "2022-08-26 後修訂申請摘要", "nature": "existing", "scope": "申請範圍",
       "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "exact",
       "review_status": "pending", "issue_ids": [],
