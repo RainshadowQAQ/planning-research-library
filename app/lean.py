@@ -39,18 +39,18 @@ def _finding(check,question,outcome,severity,text,claims=(),open_issues=(),citat
 
 def _c1(facts):
     zoning=facts.claim('ozp-zoning')
-    if not zoning:return _finding('C1','use','cannot_assess','major','未有分區資料，無法判斷用途是否須申請許可。')
+    if not zoning:return _finding('C1','use','cannot_assess','major','未有分區資料。')
     gaps=facts.open_issues(zoning)
     if '第一欄' in zoning['value']:
-        return _finding('C1','use','support','major','申請用途屬第一欄，經常准許，毋須規劃許可。',[zoning],gaps)
+        return _finding('C1','use','support','major','第一欄用途，經常准許。',[zoning],gaps)
     if '第二欄' in zoning['value']:
-        return _finding('C1','use','limit','major','申請用途屬第二欄，須按第 16 條申請規劃許可，由城規會酌情決定。',[zoning],gaps)
-    return _finding('C1','use','cannot_assess','major','分區資料未說明用途屬第幾欄。',[zoning],gaps)
+        return _finding('C1','use','limit','major','第二欄用途，須申請規劃許可。',[zoning],gaps)
+    return _finding('C1','use','cannot_assess','major','未載明屬第幾欄。',[zoning],gaps)
 
 def _c3(facts):
     intent=facts.claim('planning-intention')
     if not intent:return None
-    return _finding('C3','use','planner','note','規劃意向與此用途是否相符，交由規劃師判斷，系統不作結論。',[intent])
+    return _finding('C3','use','planner','note','是否符合規劃意向，由規劃師判斷。',[intent])
 
 def _blocked(facts,check,question,claim_id,issue_ids,severity,text):
     """A claim whose answer depends on a named open issue cannot be assessed until it is closed."""
@@ -62,26 +62,25 @@ def _blocked(facts,check,question,claim_id,issue_ids,severity,text):
 
 def _c4(facts,as_of):
     expiry=facts.claim('original-expiry')
-    if not expiry:return _finding('C4','history','cannot_assess','blocker','未有許可期限資料。')
+    if not expiry:return _finding('C4','history','cannot_assess','blocker','未有許可期限。')
     m=re.search(r'\d{4}-\d{2}-\d{2}',expiry['value'])
     gaps=facts.open_issues(expiry,{'permission-status-eot'})
-    if not m:return _finding('C4','history','cannot_assess','blocker','未能讀出原許可期限。',[expiry],gaps)
+    if not m:return _finding('C4','history','cannot_assess','blocker','未能讀出許可期限。',[expiry],gaps)
     until=date.fromisoformat(m[0]);days=(until-as_of).days
-    when=(f'基準日 {as_of.isoformat()} 已過期限 {-days} 日' if days<0 else f'基準日 {as_of.isoformat()} 正是期限最後一日' if days==0
-          else f'基準日 {as_of.isoformat()} 距期限 {days} 日')
+    when=f'已過期 {-days} 日' if days<0 else '基準日當日到期' if days==0 else f'尚餘 {days} 日'
     if gaps:
         return _finding('C4','history','cannot_assess','blocker',
-                        f'原許可期限至 {until.isoformat()}，{when}；是否已展開發展或已申請續期未核實，不能判斷許可現時是否有效。',[expiry],gaps)
-    if days<0:return _finding('C4','history','limit','major',f'原許可期限至 {until.isoformat()}，{when}，且未見續期記錄。',[expiry])
-    return _finding('C4','history','support','note',f'原許可期限至 {until.isoformat()}，{when}，仍在期限內。',[expiry])
+                        f'許可期限至 {until.isoformat()}（{when}）。未核實是否已展開或已申請續期。',[expiry],gaps)
+    if days<0:return _finding('C4','history','limit','major',f'許可期限至 {until.isoformat()}（{when}），未見續期記錄。',[expiry])
+    return _finding('C4','history','support','note',f'許可期限至 {until.isoformat()}（{when}）。',[expiry])
 
 def _c6(precedents):
     if not precedents or precedents.get('status')!='ready':
-        return _finding('C6','history','cannot_assess','note','未能讀取規劃署主文件，先例未評估。',citations=[])
+        return _finding('C6','history','cannot_assess','note','未能讀取主文件。',citations=[])
     s=precedents['summary'];previous,similar=precedents['groups']
     cites=[dict(i['citation'],label=f"主文件 · p.{i['page']}") for g in (previous,similar) for i in g['items']]
     total=s['approved']+s['rejected']+s['other']
-    count=f"規劃署主文件列出同類申請 {total} 宗：批准 {s['approved']}、拒絕 {s['rejected']}、其他 {s['other']}。只是文件挑選的先例，不是全區清單。"
+    count=f"主文件列出同類申請 {total} 宗：批准 {s['approved']}、拒絕 {s['rejected']}"+(f"、其他 {s['other']}" if s['other'] else '')+'。'
     if s['approved']>s['rejected']:outcome='support'
     elif s['rejected']>s['approved']:outcome='limit'
     else:outcome='cannot_assess'
@@ -98,13 +97,13 @@ def _lean(findings):
     name=lambda f:f"{f['check']} {f['check_label']}"
     if blockers:
         return dict(value='insufficient',label=LEANS['insufficient'],
-                    reason='有未解決的阻斷項：'+'、'.join(map(name,blockers))+'。解決前不判斷方向。')
+                    reason='阻斷項：'+'、'.join(map(name,blockers))+'。')
     pro=[f for f in findings if f['outcome']=='support']
     con=[f for f in findings if f['outcome'] in ('limit','conflict')]
-    detail=f"支持 {len(pro)} 項（{'、'.join(map(name,pro)) or '—'}），限制或衝突 {len(con)} 項（{'、'.join(map(name,con)) or '—'}）"
+    detail=f"支持 {len(pro)}（{'、'.join(map(name,pro)) or '—'}）；限制 {len(con)}（{'、'.join(map(name,con)) or '—'}）"
     if len(pro)>len(con):value='optimistic'
     elif len(con)>len(pro):value='pessimistic'
-    else:return dict(value='insufficient',label=LEANS['insufficient'],reason=detail+'，未能分出方向。')
+    else:return dict(value='insufficient',label=LEANS['insufficient'],reason=detail+'，相同。')
     return dict(value=value,label=LEANS[value],reason=detail+'。')
 
 def preliminary_lean(site_facts,precedents,as_of):
@@ -113,12 +112,12 @@ def preliminary_lean(site_facts,precedents,as_of):
     findings=[f for f in [
         _c1(facts),_c3(facts),
         _blocked(facts,'C2','limits','pr-application',{'ozp-notes-pr-limit'},'note',
-                 '申請地積比約 1.41，但對應版本的大綱圖注釋上限和分母未取得，無法比較。'),
+                 '地積比約 1.41；未有注釋上限，無法比較。'),
         _c4(facts,as_of),_c6(precedents),
         _blocked(facts,'C5','approvals','approval-conditions',{'conditions-compliance'},'major',
-                 '四項批給條件未見履行證據。'),
+                 '四項批給條件未見履行記錄。'),
         _blocked(facts,'C7','approvals','department-advice',{'lands-lease-consent'},'major',
-                 '地政總署表示規劃批准後仍須申請地契同意；手上沒有地契，未能核對地契用途條款。'),
+                 '地政總署指批准後須另申請地契同意；未有地契，未能核對。'),
     ] if f]
     lean=_lean(findings)
     lean['provisional']=any(f['provisional'] for f in findings if f['outcome'] in ('support','limit','conflict'))

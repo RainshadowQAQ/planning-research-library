@@ -39,7 +39,7 @@ export function renderLean(container, payload, onCitation) {
   const l = payload.lean;
   container.innerHTML = `<div class="banner draft">草稿 · 僅供專業覆核的初步研究結果，不構成規劃、法律或建築合規意見。</div>
     <div class="lean ${esc(l.value)}"><span class="lean-label">初步傾向：${esc(l.label)}${l.provisional ? "（暫定）" : ""}</span><p>${esc(l.reason)}</p>
-    <p class="meta">基準日 ${esc(payload.as_of)} · 規則版本 ${esc(payload.rules_version)} · 只數「支持」與「限制／衝突」的項數，不加權。${l.provisional ? "所用資料有待覆核或待查事項，所以標為暫定。" : ""}</p></div>
+    <p class="meta">基準日 ${esc(payload.as_of)} · 規則 ${esc(payload.rules_version)} · 按項數計，不加權</p></div>
     ${payload.groups.map(group).join("")}
     <section class="fact-group"><h3>${esc(payload.unknowns.label)}</h3>${unknowns || '<p class="meta">沒有待查事項</p>'}</section>`;
   container.querySelectorAll("[data-cite]").forEach((b) => {
