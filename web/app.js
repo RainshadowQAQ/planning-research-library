@@ -1,5 +1,6 @@
 import { $, esc, api, getState, saveState } from "./state.js";
 import { Reader } from "./reader.js";
+import { renderSiteFacts, renderSiteFactsUnavailable } from "./site-facts.js";
 const today = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Hong_Kong",
   year: "numeric",
@@ -17,7 +18,9 @@ let folders = [],
   loadToken = 0,
   viewBusy = 0,
   loading = false,
-  exportView;
+  exportView,
+  factsKey = "",
+  factsToken = 0;
 function toast(m) {
   $("toast").textContent = m;
   $("toast").hidden = false;
@@ -193,13 +196,14 @@ async function render(restore) {
   renderCandidates();
   renderRows();
   renderApplication();
-  $("documents").hidden = prefs.tab === "application";
-  $("application").hidden = prefs.tab !== "application";
-  $("files-tab").classList.toggle("selected", prefs.tab !== "application");
-  $("application-tab").classList.toggle(
-    "selected",
-    prefs.tab === "application",
-  );
+  const tab = ["application", "site"].includes(prefs.tab) ? prefs.tab : "files";
+  $("documents").hidden = tab !== "files";
+  $("application").hidden = tab !== "application";
+  $("site-facts").hidden = tab !== "site";
+  $("files-tab").classList.toggle("selected", tab === "files");
+  $("application-tab").classList.toggle("selected", tab === "application");
+  $("site-tab").classList.toggle("selected", tab === "site");
+  loadSiteFacts();
   $("export").disabled = !count;
   const selected =
     p.documents.find(
@@ -306,6 +310,45 @@ function renderApplication() {
     .querySelectorAll("[data-related]")
     .forEach((b) => (b.onclick = () => openNew(b.dataset.related)));
 }
+// Refetch when folder, scope or saved versions change; stale responses are dropped.
+async function loadSiteFacts() {
+  const versions = p.documents
+    .flatMap((d) => [d, ...(d.versions || [])])
+    .map((d) => d.source_run + d.sha256)
+    .join();
+  const url = `/api/folders/${p.id}/site-facts` + query();
+  const key = url + "|" + versions;
+  if (key === factsKey) return;
+  factsKey = key;
+  const token = ++factsToken;
+  try {
+    const data = await api(url);
+    if (token === factsToken) renderSiteFacts($("site-facts"), data, openEvidence);
+  } catch (e) {
+    if (token === factsToken)
+      renderSiteFactsUnavailable(
+        $("site-facts"),
+        e.message === "此資料夾沒有場地資料樣板"
+          ? "此資料夾尚無場地資料。目前只有 A/K1/265 的人工整理樣板。"
+          : e.message,
+      );
+  }
+}
+async function openEvidence(c) {
+  const display = p.documents.find((d) => d.id === c.doc_id);
+  const saved = [display, ...(display?.versions || [])].find(
+    (v) => v && v.sha256 === c.source_sha256 && v.source_run === c.source_run,
+  );
+  if (!saved) return { ok: false, reason: "所引文件版本不在目前資料範圍" };
+  await selectDocument({ ...display, ...saved });
+  persist();
+  if (matchMedia("(max-width: 850px)").matches) await focus(true);
+  if (!(await reader.whenReady(c.source_sha256)))
+    return { ok: false, reason: "所引文件未能載入" };
+  if (doc?.sha256 !== c.source_sha256)
+    return { ok: false, reason: "已切換文件" };
+  return reader.jumpToEvidence(c);
+}
 let docToken = 0;
 async function selectDocument(d) {
   if (!d) return;
@@ -405,6 +448,11 @@ $("files-tab").onclick = () => {
 };
 $("application-tab").onclick = () => {
   prefs.tab = "application";
+  render(false);
+  persist();
+};
+$("site-tab").onclick = () => {
+  prefs.tab = "site";
   render(false);
   persist();
 };

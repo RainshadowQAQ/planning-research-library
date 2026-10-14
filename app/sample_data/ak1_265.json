@@ -1,0 +1,316 @@
+{
+  "case_no": "A/K1/265",
+  "as_of": "2026-09-22",
+  "acquired": "2026-09-05",
+  "provenance": "人工整理自 _bmad-output/specs/spec-practitioner-review/case-ak1-265.md 及 case-ak1-265-gaps.md；2026-09-23 用戶確認採用官方 Site Area 及原決定期限，其餘待覆核。",
+  "sources": {
+    "P": {
+      "title": "MPC 主文件（MPC Paper No. A/K1/265A）",
+      "format": "pdf",
+      "document_date": "2022-10-14",
+      "sha256": "fc8404c047048a5273d5d656678ce3d0034fff7631a8f80cbcbc55c18fd7eb33",
+      "url": "https://www.tpb.gov.hk/uploads/page/meetings/MPC/A_K1_265_A/A_K1_265_A_MainPaper.pdf"
+    },
+    "G": {
+      "title": "申請摘要（Gist，英文）",
+      "format": "pdf",
+      "document_date": "2022-08-26 補充資料後",
+      "sha256": "ecdb5eeb8c432a5bc3beabe8d0a1bb18886763d4e81f7a439dbc666f6c43a569",
+      "url": "https://www.ozp.tpb.gov.hk/api/Perm/Gist?caseNo=A%2fK1%2f265&lang=EN&ext=pdf&dType=in"
+    },
+    "M": {
+      "title": "第 705 次都會規劃小組委員會會議記錄",
+      "format": "pdf",
+      "document_date": "2022-10-14",
+      "sha256": "564a23018b15dd0377c157c22e4ec2c0b00d2e23016eb7a90421d91db96f9c6d",
+      "url": "https://www.tpb.gov.hk/en/meetings/MPC/Minutes/m705mpc_e.pdf"
+    },
+    "D": {
+      "title": "官方申請詳情快照（Perm/Detail 回應）",
+      "format": "json",
+      "document_date": "2026-09-05 取得",
+      "sha256": "fda49821e89d400fbdf5fd071609c6775258068029db46d2f1b37e6a54cb8a39",
+      "url": "https://www.ozp.tpb.gov.hk/api/Perm/Detail/"
+    }
+  },
+  "questions": [
+    {"id": "identity", "label": "這是什麼場地"},
+    {"id": "use", "label": "土地和建築目前是什麼用途"},
+    {"id": "scale", "label": "發展規模是多少"},
+    {"id": "meaning", "label": "參數代表什麼"},
+    {"id": "planning", "label": "適用什麼規劃資料"},
+    {"id": "history", "label": "有什麼申請歷史和條件"},
+    {"id": "unknowns", "label": "有什麼無法確定"}
+  ],
+  "claims": [
+    {
+      "id": "site-address", "question": "identity", "label": "場地／地址",
+      "value": "栢麗購物大道地下及一樓，九龍尖沙咀彌敦道 111–139、143–161、165–181 號", "unit": null,
+      "time": "2022 申請", "nature": "application_proposal", "scope": "申請範圍：三段門牌的 G/F 與 1/F",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": [],
+      "citations": [
+        {"source": "P", "page": 1, "locator": "Premises", "excerpt": "Premises : G/F and 1/F, Park Lane Shopper’s Boulevard"},
+        {"source": "G", "page": 1, "locator": "Location/address", "excerpt": "Location/address"}
+      ]
+    },
+    {
+      "id": "lot", "question": "identity", "label": "地段",
+      "value": "Kowloon Inland Lot No. 10710（KIL 10710）", "unit": null,
+      "time": "2022 主文件所述", "nature": "lease_record", "scope": "租契地段；不等於已核實的 2026 登記狀態",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["lot-boundary-government-land", "lands-lease-consent"],
+      "citations": [
+        {"source": "P", "page": 1, "locator": "Lease", "excerpt": "Lease : Kowloon Inland Lot (KIL) No. 10710"},
+        {"source": "P", "page": 6, "locator": "§9.1.1(b)", "excerpt": "the Premises falls within KIL No. 10710 (the Lot)"}
+      ]
+    },
+    {
+      "id": "application-boundary", "question": "identity", "label": "研究／申請邊界",
+      "value": "三段購物廊；申請為場所地下及一樓。屋頂花園按租約交予財政司司長法團（FSI）、由康文署（LCSD）管理維護，明確不屬本申請；圖上邊界只作識別。", "unit": null,
+      "time": "2022 申請", "nature": "application_proposal", "scope": "申請範圍；精確地段疊圖、屋頂權利文件及現時狀態未獨立核實",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "unknown",
+      "review_status": "pending", "issue_ids": ["lot-boundary-government-land"],
+      "citations": [
+        {"source": "P", "page": 1, "locator": "§1.1", "excerpt": "at the existing two-storey shopping arcade, namely Park Lane Shopper’s Boulevard"},
+        {"source": "P", "page": 2, "locator": "§1.2", "excerpt": "and do not form part of the application"},
+        {"source": "P", "page": 4, "locator": "§4.2", "excerpt": "the roofs of the Premises were assigned to FSI for open space use"},
+        {"source": "G", "page": 5, "locator": "圖例", "excerpt": null}
+      ]
+    },
+    {
+      "id": "site-area", "question": "identity", "label": "Site Area",
+      "value": "約 5,410", "unit": "m²",
+      "time": "2022-08-26 後修訂申請摘要", "nature": "application_proposal", "scope": "申請摘要的 Site area；不可當作整幅 KIL 的實測面積，也不得自行扣減屋頂花園面積",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "approximate",
+      "review_status": "user_confirmed_source_value", "review_note": "用戶已確認採用官方數值（2026-09-23）",
+      "issue_ids": ["gist-parameter-definitions", "lot-boundary-government-land"],
+      "citations": [
+        {"source": "G", "page": 1, "locator": "Site area", "excerpt": "Site area"},
+        {"source": "D", "json_path": "Data[0].subj[0].planArea", "excerpt": "5410.0"}
+      ]
+    },
+    {
+      "id": "government-land-roof", "question": "identity", "label": "政府土地／屋頂權益",
+      "value": "本申請是否包含政府土地：未確定。屋頂按租約交予 FSI（權益）、由 LCSD 管理維護（管理責任），且屋頂不屬本申請（申請範圍）；三者分開記錄，當前權利狀態未獨立核實。", "unit": null,
+      "time": "2022 主文件的租約轉述", "nature": "lease_record", "scope": "政府土地部分：未知",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "unknown",
+      "review_status": "pending", "issue_ids": ["lot-boundary-government-land"],
+      "citations": [
+        {"source": "P", "page": 2, "locator": "§1.2", "excerpt": "Its rooftop gardens are assigned to Financial Secretary Incorporated (FSI) under lease"},
+        {"source": "P", "page": 4, "locator": "§4.2", "excerpt": "According to the lease, the roofs of the Premises were assigned to FSI"},
+        {"source": "P", "page": 6, "locator": "§9.1.2(b)", "excerpt": "the roofs of the Premises have been assigned to FSI under lease and their maintenance have been vested in LCSD"}
+      ]
+    },
+    {
+      "id": "actual-use-2022", "question": "use", "label": "當時實際用途",
+      "value": "部分空置、部分零售商店；樓宇為三段現有購物廊", "unit": null,
+      "time": "主文件 2022-10 描述；並非 2026 實地現狀", "nature": "existing", "scope": "申請範圍",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "unknown",
+      "review_status": "pending", "issue_ids": ["actual-use-2026"],
+      "citations": [
+        {"source": "P", "page": 4, "locator": "§7.1(a)", "excerpt": "an existing two-storey shopping arcade (i.e. Park Lane) completed in 1985"},
+        {"source": "P", "page": 5, "locator": "§7.1(b)", "excerpt": "The Premises is currently partly vacant and partly occupied by retail shops"}
+      ]
+    },
+    {
+      "id": "op-use", "question": "use", "label": "建築歷史批准用途",
+      "value": "1985-11-04 入伙紙：Site A 地下商店；Sites B/C/D 地下及一樓商店", "unit": null,
+      "time": "1985-11-04（主文件轉述）", "nature": "historical_record", "scope": "建築物",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "review_note": "入伙紙原件尚未取得", "issue_ids": ["bo-records"],
+      "citations": [
+        {"source": "P", "page": 5, "locator": "§7.1(c)", "excerpt": "according to the OP issued by the Building Authority on 4.11.1985"}
+      ]
+    },
+    {
+      "id": "applied-use", "question": "use", "label": "申請用途",
+      "value": "食肆（自助餐廳、咖啡室及茶室）及商店及服務行業；食肆面積不超過申請場所樓面面積 50%，申請人表示不燒烤或油炸", "unit": null,
+      "time": "2022 申請", "nature": "application_proposal", "scope": "申請範圍",
+      "stage": "application", "asserted_by": "applicant", "approximation": "upper_bound",
+      "review_status": "pending", "review_note": "50% 是申請內容，不是 GFA 或 PR", "issue_ids": ["licensing-eating-ratio"],
+      "citations": [
+        {"source": "P", "page": 1, "locator": "Application", "excerpt": "Application : Proposed Eating Place (Cafeteria, Coffee Shop and Tea House) and Shop and Services"},
+        {"source": "P", "page": 2, "locator": "§1.3", "excerpt": "with not more than 50% of the premises floor area"},
+        {"source": "M", "page": 7, "locator": "¶10", "excerpt": "the floor space limit of 50% for ‘Eating Place’ use was proposed by the applicant"},
+        {"source": "M", "page": 8, "locator": "¶11", "excerpt": "(not more than 50% of the subject premises)"}
+      ]
+    },
+    {
+      "id": "approved-use", "question": "use", "label": "獲批規劃用途",
+      "value": "上述申請按提交條款獲附條件批准", "unit": null,
+      "time": "2022-10-14 城規會決定", "nature": "approved", "scope": "申請範圍；不能推出地契同意、建築批准或今日經營用途",
+      "stage": "meeting_decision", "asserted_by": "town_planning_board", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["permission-status-eot"],
+      "citations": [
+        {"source": "M", "page": 12, "locator": "¶22", "excerpt": "the Committee decided to approve the application, on the terms of the application as submitted"}
+      ]
+    },
+    {
+      "id": "ozp-zoning", "question": "planning", "label": "OZP 分區",
+      "value": "已核准尖沙咀分區計劃大綱圖 S/K1/28 的「休憩用地」（O），標示「Shops Below」；兩項申請用途屬第二欄，須申請規劃許可", "unit": null,
+      "time": "對應 2022 申請引用版本", "nature": "planning_limit", "scope": "申請範圍；現行版本和 Notes 原文未核實",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["ozp-notes-pr-limit"],
+      "citations": [
+        {"source": "P", "page": 1, "locator": "Zoning", "excerpt": "Zoning : “Open Space” (“O”) and marked with ‘Shops Below’"},
+        {"source": "P", "page": 1, "locator": "§1.1", "excerpt": "both ‘Eating Place’ and ‘Shop and Services’ are Column 2 uses"},
+        {"source": "G", "page": 1, "locator": "Zoning", "excerpt": "Zoning"}
+      ]
+    },
+    {
+      "id": "planning-intention", "question": "planning", "label": "規劃意向",
+      "value": "O 地帶主要供戶外公眾休憩；公園利用高差延伸至購物廊屋頂", "unit": null,
+      "time": "2022 主文件對 OZP／說明書的轉述", "nature": "planning_limit", "scope": "分區",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["ozp-notes-pr-limit"],
+      "citations": [
+        {"source": "P", "page": 5, "locator": "§8", "excerpt": "The planning intention of the “O” zone is primarily for the provision of outdoor public open-air space"}
+      ]
+    },
+    {
+      "id": "gfa-nondomestic", "question": "scale", "label": "非住用 GFA",
+      "value": "約 7,638 m²（住用欄為空）", "unit": "m²",
+      "time": "2022-08-26 後修訂申請參數", "nature": "application_proposal", "scope": "申請範圍；Gist 原文稱 GFA，主文件稱 Floor Area，術語不同；非已核實的批准建築圖則 GFA",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "approximate",
+      "review_status": "pending", "issue_ids": ["gist-parameter-definitions", "bo-records"],
+      "citations": [
+        {"source": "G", "page": 1, "locator": "Gross floor area 非住用行", "excerpt": "Gross floor area"},
+        {"source": "P", "page": 1, "locator": "Floor Area", "excerpt": "Floor Area : About 7,638m2"}
+      ]
+    },
+    {
+      "id": "pr-application", "question": "scale", "label": "地積比率（PR）",
+      "value": "約 1.41（非住用申請參數）；規劃上限待從對應版本 OZP 圖則／Notes 取得", "unit": null,
+      "time": "2022-08-26 後修訂申請參數", "nature": "application_proposal", "scope": "申請範圍；法定分母及計算規則未核實",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "approximate",
+      "denominator": "未知（5,410 與 7,638 的近似比值一致，但法定分母未核實）",
+      "review_status": "pending", "issue_ids": ["ozp-notes-pr-limit", "gist-parameter-definitions"],
+      "citations": [
+        {"source": "G", "page": 1, "locator": "Plot ratio 非住用行", "excerpt": "Plot ratio"}
+      ]
+    },
+    {
+      "id": "site-coverage", "question": "scale", "label": "上蓋面積（Site Coverage）",
+      "value": "100%", "unit": "%",
+      "time": "2022-08-26 後修訂申請摘要", "nature": "application_proposal", "scope": "申請範圍；口徑／法定上限未核實",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "unknown",
+      "review_status": "pending", "issue_ids": ["gist-parameter-definitions"],
+      "citations": [
+        {"source": "G", "page": 2, "locator": "Site coverage", "excerpt": "Site coverage"}
+      ]
+    },
+    {
+      "id": "building-height", "question": "scale", "label": "建築物高度",
+      "value": "非住用 Site A 約 4 m；Site B/C 約 6 m；Site D 約 6.5–8.5 m；另列約 17 mPD（m 與 mPD 分開記錄）", "unit": "m／mPD",
+      "time": "2022-08-26 後修訂申請摘要", "nature": "application_proposal", "scope": "建築物（按 Site 分段）",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "approximate",
+      "review_status": "pending", "issue_ids": ["gist-parameter-definitions", "bo-records"],
+      "citations": [
+        {"source": "G", "page": 2, "locator": "Building height/No. of storeys 非住用行", "excerpt": "Building height"}
+      ]
+    },
+    {
+      "id": "storeys-blocks", "question": "scale", "label": "層數與幢數",
+      "value": "Site A 1 層，Sites B/C/D 2 層；摘要非住用 No. of block 為 3（Site 分段與 block 統計層級不同）", "unit": null,
+      "time": "2022-08-26 後修訂申請摘要", "nature": "application_proposal", "scope": "建築物",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["gist-parameter-definitions"],
+      "citations": [
+        {"source": "G", "page": 1, "locator": "No. of block", "excerpt": "No. of block"},
+        {"source": "G", "page": 2, "locator": "Storey(s)", "excerpt": "Storey"}
+      ]
+    },
+    {
+      "id": "loading-facilities", "question": "scale", "label": "用途容量／配套",
+      "value": "既有上落客貨設施共 3：的士 1、公共貨車 2；單位數欄為空（設施數量，不是建築容量或新增設施）", "unit": null,
+      "time": "2022-08-26 後修訂申請摘要", "nature": "existing", "scope": "申請範圍",
+      "stage": "supplementary_information", "asserted_by": "applicant", "approximation": "exact",
+      "review_status": "pending", "issue_ids": [],
+      "citations": [
+        {"source": "G", "page": 2, "locator": "No. of parking spaces and loading/unloading spaces", "excerpt": "loading/unloading spaces"},
+        {"source": "P", "page": 3, "locator": "§2(f)", "excerpt": "There are two loading/unloading (L/UL) bays and a taxi pick-up/drop-off point"}
+      ]
+    },
+    {
+      "id": "application-history", "question": "history", "label": "申請歷史",
+      "value": "主文件稱場所此前無申請；A/K1/250 是相似但不同地點的申請。2022-07-15 延期決定，2022-10-14 正式批准。A/K1/265-1 為官方詳情的 nextCaseNo，未併入本案。", "unit": null,
+      "time": "2022；檢索範圍未擴至 2026", "nature": "historical_record", "scope": "申請範圍",
+      "stage": "staff_paper", "asserted_by": "planning_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["permission-status-eot"],
+      "citations": [
+        {"source": "P", "page": 4, "locator": "§5", "excerpt": "There is no previous application covering the Premises."},
+        {"source": "P", "page": 4, "locator": "§6", "excerpt": "Application No. A/K1/250"},
+        {"source": "P", "page": 2, "locator": "§1.5", "excerpt": "On 15.7.2022, the Committee agreed to defer making a decision"},
+        {"source": "D", "json_path": "Data[0].meetDetail[0]", "excerpt": null},
+        {"source": "D", "json_path": "Data[0].meetDetail[1]", "excerpt": null},
+        {"source": "M", "page": 12, "locator": "¶22", "excerpt": "the Committee decided to approve the application"}
+      ]
+    },
+    {
+      "id": "original-expiry", "question": "history", "label": "原許可期限",
+      "value": "至 2026-10-14；如此前獲准發展已展開或許可續期，可能繼續有效。是否已展開、遞交 EOT、獲續期或另有變化：未核實；公開記錄缺失不能證明未遞交。", "unit": null,
+      "time": "2022-10-14 決定", "nature": "approved", "scope": "申請範圍；不等於今日許可狀態",
+      "stage": "meeting_decision", "asserted_by": "town_planning_board", "approximation": "exact",
+      "review_status": "user_confirmed_source_value", "review_note": "用戶已確認原期限（2026-09-23）；EOT／現時狀態仍未知",
+      "issue_ids": ["permission-status-eot"],
+      "citations": [
+        {"source": "M", "page": 12, "locator": "¶22", "excerpt": "The permission should be valid until 14.10.2026"}
+      ]
+    },
+    {
+      "id": "approval-conditions", "question": "history", "label": "批准條件",
+      "value": "(a) 交通管制措施；(b) 提交更新排污影響評估；(c) 實施所識別的排污改善／接駁工程；(d) 設置消防裝置", "unit": null,
+      "time": "2022-10-14 決定", "nature": "approved", "scope": "申請範圍；是否已履行未核實",
+      "stage": "meeting_decision", "asserted_by": "town_planning_board", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["conditions-compliance"],
+      "citations": [
+        {"source": "M", "page": 12, "locator": "¶22(a)", "excerpt": "the implementation of traffic control measures, as proposed by the applicant"},
+        {"source": "M", "page": 12, "locator": "¶22(b)", "excerpt": "the submission of an updated Sewerage Impact Assessment"},
+        {"source": "M", "page": 13, "locator": "¶22(d)", "excerpt": "the provision of fire service installations"}
+      ]
+    },
+    {
+      "id": "department-advice", "question": "history", "label": "部門意見與勸諭",
+      "value": "地政總署表示規劃批准後仍須申請地契同意；屋宇署表示建築工程須遵守《建築物條例》；另有盡量減少環境衞生影響的額外勸諭（獨立於批准條件）", "unit": null,
+      "time": "2022 部門意見與會議勸諭", "nature": "department_comment", "scope": "申請範圍",
+      "stage": "department_comment", "asserted_by": "other_department", "approximation": "exact",
+      "review_status": "pending", "issue_ids": ["lands-lease-consent", "bo-records"],
+      "citations": [
+        {"source": "P", "page": 6, "locator": "§9.1.1(c)", "excerpt": "the owners of the Lot are required to apply for consent under lease"},
+        {"source": "P", "page": 7, "locator": "§9.1.6", "excerpt": "all building works should in all aspects comply with the Buildings Ordinance (BO)"},
+        {"source": "M", "page": 13, "locator": "¶23", "excerpt": "to minimise environmental and hygiene impacts on the surroundings as far as practicable"}
+      ]
+    }
+  ],
+  "interpretations": [
+    {"id": "existing-parameters", "text": "本案是既有購物廊的用途申請。主文件稱額外用途不會改變現有發展參數，Gist 的面積、GFA、PR、BH 不應解讀為新增建築量。",
+     "citations": [{"source": "P", "page": 2, "locator": "§1.2", "excerpt": "the additional uses will not affect the existing development parameters"}]},
+    {"id": "discussed-30", "text": "會議記錄提到委員討論過將食肆比例降為 30%；正式決定按申請提交條款批准，不能把討論值寫成批准值。",
+     "citations": [{"source": "M", "page": 11, "locator": "¶19", "excerpt": "consideration could be given to lower the percentage of proposed floor area for eating place, e.g. 30%"}]},
+    {"id": "roof-relations", "text": "屋頂花園的權益（FSI）、管理（LCSD）和申請範圍分別記錄；不能據此推斷政府土地是否納入申請，或從約 5,410 m² 自行扣減屋頂面積。",
+     "citations": []},
+    {"id": "next-case", "text": "A/K1/265-1 在官方詳情中是 nextCaseNo；本表沒有把它的程序或日期併入 A/K1/265。",
+     "citations": [{"source": "D", "json_path": "Data[0].nextCaseNo", "excerpt": "A/K1/265-1"}]}
+  ],
+  "issues": [
+    {"id": "permission-status-eot", "priority": 1, "status": "not_researched", "title": "許可是否仍有效，以及 A/K1/265-1 的程序結果",
+     "lead": "官方詳情 nextCaseNo 指向 A/K1/265-1；原期限為 2026-10-14", "needed": "城規會本案、續期及後續決定的最新官方記錄；未公開不等於未遞交 EOT"},
+    {"id": "actual-use-2026", "priority": 1, "status": "not_researched", "title": "2026 年實際用途、空置率、建築與經營狀態",
+     "lead": "主文件 §7.1(b) 只描述 2022 年部分空置、部分零售", "needed": "近期現場資料、相關許可／管理記錄，並記錄核實日期"},
+    {"id": "gist-parameter-definitions", "priority": 1, "status": "to_compare", "title": "Gist 數值與原申請／修訂方案的面積邊界、PR 分母",
+     "lead": "Gist 有約 5,410 m²、約 7,638 m²、約 1.41、SC 100%；主文件不含附件", "needed": "申請表、SPS、2022-08-26 與 2022-10-05 補充資料及圖紙 A-1 至 A-6"},
+    {"id": "ozp-notes-pr-limit", "priority": 1, "status": "to_compare", "title": "OZP 與 Notes 的確切適用版本、條文和現行狀態（含 PR 規劃上限）",
+     "lead": "主文件轉述 S/K1/28、O 地帶和 Shops Below，未收對應 Notes／說明書原件", "needed": "官方 S/K1/28 圖則、Notes、ES 及後續版本；未取得條文不能寫成無上限"},
+    {"id": "lot-boundary-government-land", "priority": 1, "status": "to_compare", "title": "地段、申請範圍及政府土地／屋頂權益是否相交",
+     "lead": "主文件為 KIL 10710，屋頂按租約交予 FSI、LCSD 管理維護且不屬申請", "needed": "Lot Index、現行地段圖、租契／分契和申請樓層平面圖"},
+    {"id": "bo-records", "priority": 2, "status": "missing_document", "title": "屋宇署審批記錄及 GFA／高度的建築法口徑",
+     "lead": "主文件轉述 1985-11-04 入伙紙；部門無原則反對", "needed": "BRAVO／BIC 的入伙紙、獲批一般建築圖則和改建批准，與 Gist 逐項比對"},
+    {"id": "lands-lease-consent", "priority": 2, "status": "missing_document", "title": "地契限制及用途變更同意是否實際取得",
+     "lead": "主文件轉述 Conditions of Sale No. 11654，新用途需另申請同意", "needed": "IRIS 土地登記冊、Conditions、memorial；必要時向業主或地政處取得已簽立同意"},
+    {"id": "conditions-compliance", "priority": 2, "status": "not_researched", "title": "四項規劃條件是否履行",
+     "lead": "會議記錄 ¶22(a)–(d) 只有條件文字", "needed": "運輸、排污評估與接駁、消防裝置的提交／接納／執行證明"},
+    {"id": "licensing-eating-ratio", "priority": 2, "status": "not_researched", "title": "招牌、餐飲牌照、露天座位及實際食肆比例",
+     "lead": "露天座位未在申請內，食肆比例為申請人上限", "needed": "食環署牌照、經營／樓層平面資料；不把委員討論的 30% 當批准條件"}
+  ]
+}
