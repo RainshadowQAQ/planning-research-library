@@ -16,6 +16,7 @@ A local prototype for collecting, organising and reading official Hong Kong plan
 - A local PDF.js reader with focus mode, file switching, page/scroll/zoom restoration.
 - ZIP export of original PDFs in the selected view.
 - A `場地資料` tab for A/K1/265: 21 hand-transcribed site facts and 9 open questions from the reviewed sample, each with time, nature, scope and review status. Source buttons open the saved original only when its SHA-256 matches the cited version, then highlight the quoted passage when it is unique on the page.
+- A `先例` tab: reads the newest saved Planning Department main paper and lists the previous and similar applications it names, with each decision, decision date and a page citation that opens the highlighted passage. This is the Planning Department's own selection, not a complete district search.
 - MiSans Latin and Traditional Chinese interface fonts.
 
 ## Run locally
@@ -45,6 +46,7 @@ For isolated testing, use `bash scripts/start-test.sh` (port 8766, `.data-test/`
 node --check web/app.js
 node --check web/reader.js
 node --check web/site-facts.js
+node --check web/precedents.js
 ```
 
 The prototype's last development validation recorded 44 passing tests, plus browser checks for reading-state restoration and scoped ZIP contents. Tests use a small set of attributed, historical official-source fixtures. The browser is not launched by these commands.
