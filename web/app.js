@@ -1,6 +1,7 @@
 import { $, esc, api, getState, saveState } from "./state.js";
 import { Reader } from "./reader.js";
 import { renderSiteFacts, renderSiteFactsUnavailable } from "./site-facts.js";
+import { renderPrecedents } from "./precedents.js";
 const today = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Hong_Kong",
   year: "numeric",
@@ -20,7 +21,9 @@ let folders = [],
   loading = false,
   exportView,
   factsKey = "",
-  factsToken = 0;
+  factsToken = 0,
+  precedentsKey = "",
+  precedentsToken = 0;
 function toast(m) {
   $("toast").textContent = m;
   $("toast").hidden = false;
@@ -196,14 +199,19 @@ async function render(restore) {
   renderCandidates();
   renderRows();
   renderApplication();
-  const tab = ["application", "site"].includes(prefs.tab) ? prefs.tab : "files";
+  const tab = ["application", "site", "precedents"].includes(prefs.tab)
+    ? prefs.tab
+    : "files";
   $("documents").hidden = tab !== "files";
   $("application").hidden = tab !== "application";
   $("site-facts").hidden = tab !== "site";
+  $("precedents").hidden = tab !== "precedents";
   $("files-tab").classList.toggle("selected", tab === "files");
   $("application-tab").classList.toggle("selected", tab === "application");
   $("site-tab").classList.toggle("selected", tab === "site");
+  $("precedents-tab").classList.toggle("selected", tab === "precedents");
   loadSiteFacts();
+  loadPrecedents();
   $("export").disabled = !count;
   const selected =
     p.documents.find(
@@ -334,6 +342,27 @@ async function loadSiteFacts() {
       );
   }
 }
+// Same refetch rule as site facts: folder, scope or saved versions.
+async function loadPrecedents() {
+  const versions = p.documents.map((d) => d.source_run + d.sha256).join();
+  const url = `/api/folders/${p.id}/precedents` + query();
+  const key = url + "|" + versions;
+  if (key === precedentsKey) return;
+  precedentsKey = key;
+  const token = ++precedentsToken;
+  try {
+    const data = await api(url);
+    if (token === precedentsToken)
+      renderPrecedents($("precedents"), data, {
+        onCitation: openEvidence,
+        onFolder: selectFolder,
+        onNew: openNew,
+      });
+  } catch (e) {
+    if (token === precedentsToken)
+      $("precedents").innerHTML = `<p class="meta">${esc(e.message)}</p>`;
+  }
+}
 async function openEvidence(c) {
   const display = p.documents.find((d) => d.id === c.doc_id);
   const saved = [display, ...(display?.versions || [])].find(
@@ -453,6 +482,11 @@ $("application-tab").onclick = () => {
 };
 $("site-tab").onclick = () => {
   prefs.tab = "site";
+  render(false);
+  persist();
+};
+$("precedents-tab").onclick = () => {
+  prefs.tab = "precedents";
   render(false);
   persist();
 };
