@@ -22,6 +22,7 @@ from app.library import Library
 from app.library_routes import attach_library_routes
 from app.site_fact_routes import attach_site_fact_routes
 from app.precedent_routes import attach_precedent_routes
+from app.lean_routes import attach_lean_routes
 
 BASE=Path(__file__).resolve().parent.parent
 
@@ -173,6 +174,7 @@ def create_app(root=None):
     view=attach_library_routes(app,lib,schedule,ProjectInput,public)
     attach_site_fact_routes(app,lib,view)
     attach_precedent_routes(app,lib,view)
+    attach_lean_routes(app,lib,view)
     app.mount('/',StaticFiles(directory=BASE/'web',html=True),name='web')
     return app
 

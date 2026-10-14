@@ -771,3 +771,28 @@ body.resizing {
   font-size: 12px;
   padding: 3px 8px;
 }
+.lean {
+  border-left: 4px solid #8a98a8;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+.lean.optimistic {
+  border-color: #3d7350;
+}
+.lean.pessimistic {
+  border-color: #a34439;
+}
+.lean.insufficient {
+  border-color: #c98c00;
+}
+.lean-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+.lean p {
+  margin: 4px 0 0;
+}
+.banner.draft {
+  background: #fbf3df;
+  color: #6b5320;
+}

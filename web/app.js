@@ -2,6 +2,7 @@ import { $, esc, api, getState, saveState } from "./state.js";
 import { Reader } from "./reader.js";
 import { renderSiteFacts, renderSiteFactsUnavailable } from "./site-facts.js";
 import { renderPrecedents } from "./precedents.js";
+import { renderLean } from "./lean.js";
 const today = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Hong_Kong",
   year: "numeric",
@@ -23,7 +24,9 @@ let folders = [],
   factsKey = "",
   factsToken = 0,
   precedentsKey = "",
-  precedentsToken = 0;
+  precedentsToken = 0,
+  leanKey = "",
+  leanToken = 0;
 function toast(m) {
   $("toast").textContent = m;
   $("toast").hidden = false;
@@ -199,19 +202,22 @@ async function render(restore) {
   renderCandidates();
   renderRows();
   renderApplication();
-  const tab = ["application", "site", "precedents"].includes(prefs.tab)
+  const tab = ["application", "site", "precedents", "lean"].includes(prefs.tab)
     ? prefs.tab
     : "files";
   $("documents").hidden = tab !== "files";
   $("application").hidden = tab !== "application";
   $("site-facts").hidden = tab !== "site";
   $("precedents").hidden = tab !== "precedents";
+  $("lean").hidden = tab !== "lean";
   $("files-tab").classList.toggle("selected", tab === "files");
   $("application-tab").classList.toggle("selected", tab === "application");
   $("site-tab").classList.toggle("selected", tab === "site");
   $("precedents-tab").classList.toggle("selected", tab === "precedents");
+  $("lean-tab").classList.toggle("selected", tab === "lean");
   loadSiteFacts();
   loadPrecedents();
+  loadLean();
   $("export").disabled = !count;
   const selected =
     p.documents.find(
@@ -363,6 +369,30 @@ async function loadPrecedents() {
       $("precedents").innerHTML = `<p class="meta">${esc(e.message)}</p>`;
   }
 }
+// Same refetch rule; the base date is today in Hong Kong.
+async function loadLean() {
+  const versions = p.documents
+    .flatMap((d) => [d, ...(d.versions || [])])
+    .map((d) => d.source_run + d.sha256)
+    .join();
+  const q = query();
+  const url = `/api/folders/${p.id}/lean` + q + (q ? "&" : "?") + "as_of=" + today;
+  const key = url + "|" + versions;
+  if (key === leanKey) return;
+  leanKey = key;
+  const token = ++leanToken;
+  try {
+    const data = await api(url);
+    if (token === leanToken) renderLean($("lean"), data, openEvidence);
+  } catch (e) {
+    if (token === leanToken)
+      $("lean").innerHTML = `<p class="meta">${esc(
+        e.message === "此資料夾沒有場地資料樣板"
+          ? "初步傾向需要場地資料。目前只有 A/K1/265 的人工整理樣板。"
+          : e.message,
+      )}</p>`;
+  }
+}
 async function openEvidence(c) {
   const display = p.documents.find((d) => d.id === c.doc_id);
   const saved = [display, ...(display?.versions || [])].find(
@@ -487,6 +517,11 @@ $("site-tab").onclick = () => {
 };
 $("precedents-tab").onclick = () => {
   prefs.tab = "precedents";
+  render(false);
+  persist();
+};
+$("lean-tab").onclick = () => {
+  prefs.tab = "lean";
   render(false);
   persist();
 };
