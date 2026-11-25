@@ -6,10 +6,10 @@
 
 | 代号 | 来源文件；本地路径 | SHA-256；原始出处 |
 |---|---|---|
-| P | [MPC 主文件，13 页](../../../docs/research/2026-09-05-api-feasibility/main-paper.pdf)；2022-10-14 会议考虑文件，MPC Paper No. A/K1/265A | `fc8404c047048a5273d5d656678ce3d0034fff7631a8f80cbcbc55c18fd7eb33`；[城规会](https://www.tpb.gov.hk/uploads/page/meetings/MPC/A_K1_265_A/A_K1_265_A_MainPaper.pdf) |
-| G | [概括发展参数，6 页](../../../docs/research/2026-09-05-api-feasibility/gist-en.pdf)；2022-08-26 补充资料后的修订摘要 | `ecdb5eeb8c432a5bc3beabe8d0a1bb18886763d4e81f7a439dbc666f6c43a569`；[城规会摘要](https://www.ozp.tpb.gov.hk/api/Perm/Gist?caseNo=A%2fK1%2f265&lang=EN&ext=pdf&dType=in) |
-| M | [第 705 次会议记录，24 页](../../../docs/research/2026-09-05-api-feasibility/minutes-705-en.pdf)；2022-10-14 会议 | `564a23018b15dd0377c157c22e4ec2c0b00d2e23016eb7a90421d91db96f9c6d`；[城规会会议记录](https://www.tpb.gov.hk/en/meetings/MPC/Minutes/m705mpc_e.pdf) |
-| D | [官方申请详情快照](../../../docs/research/2026-09-05-api-feasibility/perm-detail.json)；2026-09-05 获取 | `fda49821e89d400fbdf5fd071609c6775258068029db46d2f1b37e6a54cb8a39`；官方前端 `Perm/Detail/` 回应，稳定公开契约未确认 |
+| P | [MPC 主文件，13 页](../research/2026-09-05-api-feasibility/main-paper.pdf)；2022-10-14 会议考虑文件，MPC Paper No. A/K1/265A | `fc8404c047048a5273d5d656678ce3d0034fff7631a8f80cbcbc55c18fd7eb33`；[城规会](https://www.tpb.gov.hk/uploads/page/meetings/MPC/A_K1_265_A/A_K1_265_A_MainPaper.pdf) |
+| G | [概括发展参数，6 页](../research/2026-09-05-api-feasibility/gist-en.pdf)；2022-08-26 补充资料后的修订摘要 | `ecdb5eeb8c432a5bc3beabe8d0a1bb18886763d4e81f7a439dbc666f6c43a569`；[城规会摘要](https://www.ozp.tpb.gov.hk/api/Perm/Gist?caseNo=A%2fK1%2f265&lang=EN&ext=pdf&dType=in) |
+| M | [第 705 次会议记录，24 页](../research/2026-09-05-api-feasibility/minutes-705-en.pdf)；2022-10-14 会议 | `564a23018b15dd0377c157c22e4ec2c0b00d2e23016eb7a90421d91db96f9c6d`；[城规会会议记录](https://www.tpb.gov.hk/en/meetings/MPC/Minutes/m705mpc_e.pdf) |
+| D | [官方申请详情快照](../research/2026-09-05-api-feasibility/perm-detail.json)；2026-09-05 获取 | `fda49821e89d400fbdf5fd071609c6775258068029db46d2f1b37e6a54cb8a39`；官方前端 `Perm/Detail/` 回应，稳定公开契约未确认 |
 
 表中 `P p.1 §1.1` 表示该 PDF 的实际第 1 页和小节；`M p.12 ¶22` 表示整个会议记录 PDF 的第 12 页和段落。可直接打开冻结文件核对。仅记录原文位置，尚未生成可点击区域坐标。
 

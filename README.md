@@ -1,27 +1,63 @@
-# 規劃資料室 · Planning Research Library
+# 规划资料室 · Planning Research Library
 
-A local prototype for collecting, organising and reading official Hong Kong planning application documents.
+面向香港城市规划背景调查（Planning Research）工作流的本地原型：输入完整规划申请编号，自动检索并保存官方文件快照，在本地 PDF 阅读器中完成字段溯源、先例提取与固定规则的初步倾向核对。
 
-輸入完整規劃申請編號，從官方來源搜集文件，在同一資料夾查看 Gist、會議文件與會議記錄，並保留來源和檢索歷史。
+> 本仓库为个人本地原型（FastAPI + SQLite + 原生 JS + 本地 PDF.js 6.3.289），用于验证真实咨询工作流中的 **Agent Harness 与证据溯源设计**，不提供云端托管服务或最终专业意见。
 
-![Implemented library interface](docs/images/library.png)
+---
 
-*已實作介面，展示公開申請 A/K1/265。新安裝的資料庫為空；截圖中的個人工作庫不隨程式發布。*
+## 为什么做这个原型：直接套 LLM 会翻车在哪里
 
-## Current features
+香港规划咨询公司在做一宗地块的背景调查时，需要同时核对城规会主文件（Main Paper）、申请摘要（Gist）、会议记录（Minutes）以及地契/屋宇署口径。如果直接把多份 PDF 丢给大模型总结，实务中会遇到三类高风险错误：
 
-- One folder per complete application number; related application numbers remain separate.
-- Official-source discovery, original PDF retrieval and source metadata.
-- Immutable retrieval history and date-scoped document views.
-- A local PDF.js reader with focus mode, file switching, page/scroll/zoom restoration.
-- ZIP export of original PDFs in the selected view.
-- A `場地資料` tab for A/K1/265: 21 hand-transcribed site facts and 9 open questions from the reviewed sample, each with time, nature, scope and review status. Source buttons open the saved original only when its SHA-256 matches the cited version, then highlight the quoted passage when it is unique on the page.
-- A `先例` tab: reads the newest saved Planning Department main paper and lists the previous and similar applications it names, with each decision, decision date and a page citation that opens the highlighted passage. This is the Planning Department's own selection, not a complete district search.
-- MiSans Latin and Traditional Chinese interface fonts.
+1. **角色混淆**：把“申请人陈述”或“委员讨论意见”写成“城规会正式批准条件”。
+2. **口径混用**：把申请方案的约数地积比（PR）当成法定规划上限，或忽略不同文件的面积边界差异。
+3. **静默脑补与版本漂移**：缺少现行 OZP/续期记录时自行补全结论，或把旧版 PDF 的页码引用套用到新文件上。
 
-## Run locally
+---
 
-Requirements: Python 3.11+ and Node.js 22+ with npm. Network access is required for installation and official-source collection.
+## 核心 Harness 设计取舍
+
+为了把风险关在系统边界内，本项目把“自由推理”从核心校验链路中剥离，仅在规划中的云端接入阶段用模型做候选提取（设计细节见 [Harness 与评测设计复盘](docs/design/harness-and-eval-notes.md)）：
+
+- **内容哈希绑定与原文高亮（`app/site_facts.py`）**：以公开申请 `A/K1/265`（尖沙咀柏丽购物大道）为样本，将 21 项场地字段与 9 项待查事项通过 `SHA-256` 绑定到官方原件。只有哈希匹配且摘录在目标页唯一出现时，点击来源才会在 PDF.js 上绘制高亮；缺件、版本不符或不在当前日期范围时，显式提示 `missing_original` / `version_mismatch` / `outside_scope`。
+- **半结构化先例提取与诚实兜底（`app/precedents.py`）**：从规划署主文件的 `Previous / Similar Application` 章节和附录表中提取申请编号、决定与日期；文句未写明决定时标为 `unknown`（未能判讀），并在界面明确提示“仅为主文件挑选的先例，非全区完整检索”。
+- **确定性规则与阻断机制（`app/lean.py`）**：采用固定规则 `C1–C8`（`Rules, not free judgement`）对已采集事实与先例做无加权计数。只要存在未解决的关键阻断项（例如 `C4` 未核实许可是否已展开或续期），结论强制输出 `證據不足（暫定）`；依赖待覆核字段的结论一律标记 `暫定`。
+- **明确不做的边界**：不做自动最终专业判断，不自动购买或登入受限部门系统，不将一般政策当作个案证据。
+
+---
+
+## 核心界面实拍（公开案例 `A/K1/265`）
+
+以下截图来自本地测试库加载 2026-09-05 冻结官方文件快照（`main-paper.pdf` 与 `minutes-705-en.pdf`）后的真实运行画面：
+
+### 1. `場地資料`：结构化字段 + 原文哈希高亮 + 缺件提示
+![場地資料与PDF原文高亮](docs/images/site-facts-highlight.png)
+*点击 `P MPC 主文件 · p.1 · Premises` 后右侧自动跳页并高亮；未保存的 `G 申請摘要 (Gist)` 诚实显示未保存原件。*
+
+### 2. `先例`：提取规划署主文件列出的过往与同类申请
+![先例提取与原文定位](docs/images/precedents.png)
+*提取 `A/K1/250`（附帶條件批准 · 2015-08-21）并高亮主文件第 4 页原文，同时标注“非全区完整清单”。*
+
+### 3. `初步傾向`：固定规则 `C1–C8` 与阻断项判别
+![初步傾向规则与阻断判别](docs/images/preliminary-lean.png)
+*因 `C4 許可狀態` 存在未核实阻断项，整体直接判定为 `證據不足（暫定）`，并逐项列出待查事项与证据来源。*
+
+---
+
+## 目录结构
+
+- `app/`：FastAPI 后端、官方来源检索（`research.py`）、文档库与时间范围视图（`library.py`）、场地事实绑定（`site_facts.py`）、先例解析（`precedents.py`）、规则引擎（`lean.py`）。
+- `web/`：原生 JS 前端与本地打包的 PDF.js 阅读器。
+- `docs/design/`：[Harness 与评测设计复盘](docs/design/harness-and-eval-notes.md)、[功能规格](docs/design/SPEC.md)、[验收矩阵](docs/design/acceptance.md)、[Kimi API 接入边界](docs/design/kimi-integration.md) 与 `A/K1/265` 样板文档。
+- `docs/research/2026-09-05-api-feasibility/`：公开官方来源测试夹具与 SHA-256 清单（`manifest.json`）。
+- `tests/`：后端单元测试与 API 集成测试。
+
+---
+
+## 本地运行与测试验证
+
+环境要求：Python 3.11+、Node.js 22+ 与 npm（首次启动需要联网安装依赖与本地化 PDF.js）。
 
 ```sh
 git clone https://github.com/RainshadowQAQ/planning-research-library.git
@@ -29,40 +65,20 @@ cd planning-research-library
 bash scripts/start.sh
 ```
 
-Open **http://localhost:8765/**. First startup creates a Python virtual environment and installs/venders the locked PDF.js dependency. Create a folder using a complete application number, such as `A/K1/265`.
+启动后访问 **http://127.0.0.1:8765/**（隔离测试模式可运行 `bash scripts/start-test.sh`，端口 `8766`，数据保存在 `.data-test/`）。
 
-The application binds to loopback and enforces local-origin requests. This repository publishes source code; it is **not a hosted multi-user service or GitHub Pages deployment**.
-
-## Storage and privacy
-
-Local data is saved under `.data-library/`, including original documents, source request records and reading state. These runtime directories are ignored by Git and are not included here. Stop the service before backing up the complete directory. Do not expose this development server directly to the internet.
-
-For isolated testing, use `bash scripts/start-test.sh` (port 8766, `.data-test/`). Keep test and daily data directories separate.
-
-## Development
+当前仓库本地实测通过记录：
 
 ```sh
-.venv/bin/python -m pytest -q
-node --check web/app.js
-node --check web/reader.js
-node --check web/site-facts.js
-node --check web/precedents.js
+.venv/bin/python -m pytest tests -q
+# 78 passed, 2 warnings
+
+for f in web/*.js; do node --check "$f"; done
+# 6 个前端脚本全部通过语法检查
 ```
 
-The prototype's last development validation recorded 44 passing tests, plus browser checks for reading-state restoration and scoped ZIP contents. Tests use a small set of attributed, historical official-source fixtures. The browser is not launched by these commands.
+## 许可与第三方声明
 
-Backend: FastAPI, SQLite and Python. Frontend: plain JavaScript modules and locally bundled PDF.js 6.3.289. See locked dependency files for versions.
-
-## Scope and next steps
-
-This is a working prototype. Official interfaces can change or fail, and historical completeness is not guaranteed. An application document's references do not establish the currently applicable OZP or planning position.
-
-The following are **not implemented**: the newly approved three-column layout refinement, shared layered indexes with background freshness checks, cloud accounts, automatic summaries, highlights or annotations. Current collection can still wait for PDF downloads; it does not yet provide search-engine-style immediate indexing.
-
-## Third-party materials
-
-- The interface uses **MiSans Fonts**. Original WOFF2 assets and their [license](web/fonts/MiSans-License.pdf) are retained; see [font provenance](web/fonts/README.md).
-- PDF.js is installed from its locked npm package; its license is copied into the local vendor output.
-- Government-source test documents retain their original ownership. [Fixture provenance](docs/research/2026-09-05-api-feasibility/manifest.json) records source URLs and hashes. Their inclusion does not imply government endorsement.
-
-No blanket license is applied to third-party materials. Public repository visibility alone does not grant an open-source license to the project's own code.
+- 界面字体使用 **MiSans Fonts**，原文件及授权见 `web/fonts/MiSans-License.pdf` 与 `web/fonts/README.md`。
+- PDF.js 通过锁定的 npm 版本安装并在本地生成 vendor 目录，其许可证随构建保留。
+- 测试夹具来自香港城市规划委员会公开文件，原版权归属各自官方机构；仓库代码公开可见不代表授予开源许可。
